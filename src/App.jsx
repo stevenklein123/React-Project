@@ -13,7 +13,8 @@ function App() {
         className="border border-gray-400 px-3 py-2 rounded" onChange={(e) => setName(e.target.value)}
       />
       
-      <h1>Character : {name.length}</h1>
+
+      <h1>{name ? `Hello ${name}` : "Please enter your name."}</h1>
     </>
   );  
 }
