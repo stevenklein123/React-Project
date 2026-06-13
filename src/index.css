@@ -1,8 +1,2 @@
 @import "tailwindcss";
 
-
-.btn-plus{
-    width: 100px;
-    height: 50px;
-    cursor: pointer;
-}
