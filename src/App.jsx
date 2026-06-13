@@ -1,19 +1,20 @@
 import { useState } from "react";
 
-function App() {
-  const [name, setName] = useState("Steven");
 
-  const changeName = () => {
-    setName("React Developer");
-  };
+function App() {
+
+  const [showMessage, setShowMessage] = useState(false);
+
+  const toggleMessage = () => {
+    setShowMessage(!showMessage);
+  }
 
   return (
-    <>
-      <h1>Current Name: {name}</h1>
-
-      <button onClick={changeName}>
-        Change Name
-      </button>
+    <>  
+      <h1>{showMessage ? "Hello React" : "Message Hidden"}</h1>
+      <button className="bg-purple-600 text-white font-sans rounded-xl px-3 text-lg cursor-pointer " onClick={toggleMessage}> {
+      showMessage ? "Hide" : "Show"}</button>
+      
     </>
   );
 }
