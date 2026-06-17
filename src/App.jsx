@@ -1,26 +1,69 @@
 import { useState } from "react";
 
+
 function App() {
 
-  const [name , setName] = useState("Steven");
-  const [age , setAge] = useState(20);
-  
-  const incrementAge = () => {
-    setAge((prevState) => prevState + 1);
+  const [like , setLike] = useState(0);
+  const [disLike , setDislike] = useState(0);
+
+  const IncrementLike = () => {
+    setLike((prevState) => prevState+1);
   }
-  const decrementAge = () => {
-    setAge((prevState) => prevState > 0 ? prevState - 1 : 0);
+
+    const IncrementDisLike = () => {
+    setDislike((prevState) => prevState+1);
   }
+
+  const resetFunc = () => { 
+    setLike(0);
+    setDislike(0);
+  }
+
+
   return (
     <>  
-    <div className="bg-gray-700 w-64 h-32 text-white flex flex-col justify-center items-center">
-        <h1>Name : {name}</h1>
-        <p>Age : {age}</p>
-          <div className="flex flex-row gap-2">
-            <button className="bg-purple-600 rounded-xl px-2 my-2 cursor-pointer" onClick={incrementAge}>Increment</button>
-            <button className="bg-purple-600 rounded-xl px-2 my-2 cursor-pointer" onClick={decrementAge}>Decrement</button>
-          </div>
-    </div>
+<div className="min-h-screen flex justify-center items-center">
+
+  <div className="
+    text-sm md:text-lg lg:text-xl
+    bg-slate-700 text-white
+    w-full max-w-xs
+    p-4
+    flex flex-col
+    rounded-xl
+  ">
+
+    <p>Like : {like}</p>
+    <p>👍</p>
+
+    <button
+      className="bg-purple-700 rounded-xl py-2 my-2 cursor-pointer"
+      onClick={IncrementLike}
+    >
+      Like
+    </button>
+
+    <p>Dislike : {disLike}</p>
+    <p>👎</p>
+
+    <button
+      className="bg-purple-700 rounded-xl py-2 my-2 cursor-pointer"
+      onClick={IncrementDisLike}
+    >
+      Dislike
+    </button>
+
+    <button
+      className="bg-blue-700 rounded-xl py-2 my-2 cursor-pointer"
+      onClick={resetFunc}
+    >
+      Reset
+    </button>
+
+  </div>
+
+</div>
+
     </>
   );  
 }
