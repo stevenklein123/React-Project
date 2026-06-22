@@ -1,11 +1,1 @@
 @import "tailwindcss";
-
-*{
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-}
-
-.main-content{
-    position: relative;
-    right: -650px;
-    bottom: -300px;
-}

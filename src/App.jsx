@@ -1,65 +1,51 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 function App() {
-
-  const [inputTask , setInputTask] = useState("");
-  const [task, setTask] = useState([]);
-
-
-  const addTask = () => {
-
-      if(inputTask === "") return;
-      setTask((prev) => [...prev , inputTask]);
-      
-      setInputTask("");
-  }
-
-  const deleteTask = (index) => {
-      setTask((prev) => prev.filter((_ , i) => i !== index))
-  }
-
-
-  const updateTask = (index) => {
-    setTask((prev) => prev.map((task , i) => (
-      i === index ? <input type="text" placeholder="Enter Update Task"></input> : task
-    ))) }
   
+  const inputUsername = useRef();
+  const inputPassword = useRef();
+  const [message , setMessage] = useState("");
+
+  const validationInput = () => {
+    
+      if(inputUsername.current.value === ""){
+        setMessage(inputUsername.current.value = "Please enter username.")
+        inputUsername.current.focus();
+        return;
+      }
+
+      if(inputPassword.current.value === ""){
+        setMessage(inputPassword.current.value = "Please enter password.")
+        inputPassword.current.focus();
+        return;
+      }
+
+      
+  }
+
   return (
-    <>  
-
-      <div className="min-h-screen bg-white-700 text-white flex flex-col justify-center items-center">
-
-        <div className="bg-slate-950 w-150 h-150 rounded-3xl shadow-lg border-black">
-
-          <h1 className="font-sans font-bold flex flex-col justify-center items-center py-5 text-3xl">Todo List</h1>
-
-          <input type="text" placeholder=" Enter Task..." className="border py-2 mx-10 my-10 rounded-md" value={inputTask} onChange={(e) => setInputTask(e.target.value)} />
-
-          <button className="bg-blue-400 rounded-xl p-2 cursor-pointer" onClick={addTask}>Add task</button>
-
-          {task.map((item, index) => (
-            <div key={index} className="flex justify-between items-center mx-10 my-2">
-              
-              {/* Task text on the left */}
-              <span className="font-bold">
-                {index + 1} : {item}
-              </span>
-
-              <div className="flex gap-2"> 
-                <button className="bg-red-400 rounded-xl p-2 cursor-pointer" onClick={()=> deleteTask(index)}>Delete</button>
-              </div>
-              
-            </div>
-          ))}
-
-
-
+    <>
+    <div className="min-h-screen flex justify-center items-center bg-gray-900">
+      <div className="bg-slate-700 text-white font-sans w-full max-w-md p-6 rounded-lg shadow-lg">
+        <input
+          type="text"
+          placeholder="Enter username..."
+          className="w-full border-2 border-violet-600 p-2 rounded mb-4"
+        ref={inputUsername} />
+        
+        <input
+          type="text"
+          placeholder="Enter password..."
+          className="w-full border-2 border-violet-600 p-2 rounded"
+         ref={inputPassword}/>
+        <div className="flex justify-center items-center">
+          <button className="bg-purple-700 rounded-xl px-2 font-semibold mt-2 py-2 cursor-pointer" onClick={validationInput}>Submit</button>
         </div>
 
       </div>
-
+    </div>
     </>
-  );  
+  );
 }
 
 export default App;
