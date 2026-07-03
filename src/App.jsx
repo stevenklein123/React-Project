@@ -1,85 +1,113 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 function App() {
-  const taskRef = useRef();
-  const [tasks, setTasks] = useState([]);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const addTask = () => {
-    const taskInput = taskRef.current.value.trim();
-    
-    if (taskInput !== "") {
-      // Generate unique ID using timestamp + random number
-      const newTask = {
-        id: Date.now() + Math.random(),
-        text: taskInput
-      };
-      setTasks((prev) => [...prev, newTask]);
-    }
-    
-    taskRef.current.value = "";
-  };
+  const [submittedEmail, setSubmittedEmail] = useState("");
+  const [submittedPassword, setSubmittedPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  // Add support for Enter key
-  const handleKeyPress = (e) => {
-    if (e.key === "Enter") {
-      addTask();
-    }
-  };
+  const handleForm = (e) => {
+    e.preventDefault();
 
-  const deleteTask = (idToDelete) => {
-    setTasks((prev) => prev.filter((task) => task.id !== idToDelete));
+    setIsLoading(true);
+
+    setTimeout(() => {
+      setSubmittedEmail(email);
+      setSubmittedPassword(password);
+
+      setEmail("");
+      setPassword("");
+
+      setIsLoading(false);
+    }, 2000); // 2 seconds
   };
 
   return (
-    <>
-      <div className="min-h-screen flex justify-center items-center bg-gray-900 px-4">
-        <div className="bg-slate-700 text-white font-sans w-full max-w-sm sm:max-w-md md:max-w-lg p-6 rounded-lg shadow-lg">
-          <h1 className="font-bold text-2xl mb-6">Todo Application</h1>
+    <div className="bg-slate-900 text-white font-sans min-h-screen flex items-center justify-center p-4">
+      <div className="bg-slate-800 p-8 rounded-2xl shadow-xl w-full max-w-md border border-slate-700">
+        <h2 className="text-2xl font-bold text-center mb-6 text-emerald-400">
+          Login Account
+        </h2>
 
-          {/* Input Section */}
-          <div className="flex gap-2 mb-6">
-            <input
-              type="text"
-              placeholder="Enter task"
-              className="flex-1 border-2 border-gray-300 rounded-lg px-3 py-2 text-black focus:outline-none focus:border-blue-500"
-              ref={taskRef}
-              onKeyPress={handleKeyPress}
-            />
-            <button
-              className="bg-blue-500 hover:bg-blue-600 cursor-pointer rounded-lg px-4 py-2 font-semibold transition"
-              onClick={addTask}
+        <form
+          method="post"
+          className="flex flex-col gap-5"
+          onSubmit={handleForm}
+        >
+          <div className="flex flex-col gap-1.5">
+            <label
+              htmlFor="email"
+              className="text-sm font-medium text-slate-300"
             >
-              Add
-            </button>
+              Email Address
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="name@company.com"
+              className="bg-slate-700 border border-slate-600 rounded-lg px-4 py-2.5 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
           </div>
 
-          <div>
-            {tasks.length === 0 ? (
-              <p className="text-gray-400 text-center py-4">No tasks yet. Add one to get started!</p>
-            ) : (
-              <ul className="space-y-2">
-                {tasks.map((task, index) => (
-                  <li
-                    key={task.id}
-                    className="flex justify-between items-center bg-slate-600 p-3 rounded-lg"
-                  >
-                    <span>
-                      {index + 1}. {task.text}
-                    </span>
-                    <button
-                      className="bg-red-500 hover:bg-red-600 rounded-lg px-3 py-1 cursor-pointer text-sm font-semibold transition"
-                      onClick={() => deleteTask(task.id)}
-                    >
-                      Delete
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            )}
+          <div className="flex flex-col gap-1.5">
+            <label
+              htmlFor="password"
+              className="text-sm font-medium text-slate-300"
+            >
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="••••••••"
+              className="bg-slate-700 border border-slate-600 rounded-lg px-4 py-2.5 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
           </div>
-        </div>
+
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="mt-2 bg-emerald-500 hover:bg-emerald-400 disabled:bg-gray-500 disabled:cursor-not-allowed text-slate-950 font-semibold py-2.5 rounded-lg transition-all"
+          >
+            {isLoading ? "Signing In..." : "Sign In"}
+          </button>
+        </form>
+
+        {submittedEmail && (
+          <div className="mt-6 p-4 bg-slate-900/50 border border-emerald-500/30 rounded-xl animate-fade-in">
+            <div className="flex items-center gap-2 mb-3 text-emerald-400 text-sm font-semibold uppercase tracking-wider">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              Submitted Data
+            </div>
+            <div className="space-y-2 text-sm">
+              <div className="flex justify-between border-b border-slate-700/50 pb-1.5">
+                <span className="text-slate-400">Email:</span>
+                <span className="font-mono text-emerald-300 break-all">
+                  {submittedEmail}
+                </span>
+              </div>
+              <div className="flex justify-between pt-0.5">
+                <span className="text-slate-400">Password:</span>
+                <span className="font-mono text-slate-300">
+                  {"•".repeat(submittedPassword.length) || "None"}
+                  <span className="text-xs text-slate-500 ml-2 font-sans">
+                    ({submittedPassword})
+                  </span>
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
-    </>
+    </div>
   );
 }
 
